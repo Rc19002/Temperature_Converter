@@ -1,16 +1,23 @@
-# This is a sample Python script.
+from tkinter import *
+from tkinter import ttk
+root = Tk()
+root.title("Temperature convertor")
+celsius_label = ttk.Label(root, text="Celsius")
+celsius_label.grid(row=0, column=0)
+fahrenheit_label = ttk.Label(root, text="Fahrenheit")
+fahrenheit_label.grid(row=0, column=1)
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+celsius_input = DoubleVar()
+fahrenheit_input = DoubleVar()
 
+celsius_entry = ttk.Entry(root, textvariable=celsius_input)
+celsius_entry.grid(row=1, column=0, padx=5, pady=5)
+fahrenheit_entry = ttk.Entry(root, textvariable=fahrenheit_input)
+fahrenheit_entry.grid(row=1, column=1, padx=5, pady=5)
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+celsius_button = ttk.Button(root, text="Convert to Fahrenheit")
+celsius_button.grid(row=2, column=0, padx=5, pady=5)
+fahrenheit_button = ttk.Button(root, text="Convert to Celsius")
+fahrenheit_button.grid(row=2, column=1, padx=5, pady=5, sticky="WE")
 
-
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+root.mainloop()
