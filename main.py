@@ -3,9 +3,18 @@ from tkinter import ttk
 
 
 def log_gui():
+    take_answers = fahrenheit_input.get()
+    take_answer = celsius_input.get()
     log = Toplevel()
     log.title("History/Log")
-    input_log = []
+    input_log.append(take_answer)
+    input_log.append(take_answers)
+    print(input_log)
+    listboxes = Listbox(log)
+    clear_button = Button(log, text="Clear")
+    clear_button.grid(column=1, row=0, padx=5, pady=5)
+    listboxes.grid(column=0, row=0, padx=5, pady=5)
+    listboxes.insert(0, *input_log)
 
 
 def temp_checker(min_value):
@@ -44,9 +53,9 @@ def fahrenheit_calc():
     fahrenheit_input.set(celsius)
 
 
-
 root = Tk()
 root.title("Temperature convertor")
+input_log = []
 # text for the input boxes
 celsius_label = ttk.Label(root, text="Celsius")
 celsius_label.grid(row=0, column=0)
@@ -78,7 +87,7 @@ help_button.grid(row=1, column=2, padx=5, pady=5)
 celsius_button = ttk.Button(root, text="Convert to Fahrenheit", command=celsius_calc)
 celsius_button.grid(row=2, column=0, padx=5, pady=5)
 
-fahrenheit_button = ttk.Button(root, text="Convert to Celsius", command=fahrenheit_calc())
+fahrenheit_button = ttk.Button(root, text="Convert to Celsius", command=fahrenheit_calc)
 fahrenheit_button.grid(row=2, column=1, padx=5, pady=5, sticky="WE")
 
 conversion_log_button = ttk.Button(root, text="History", command=log_gui)
