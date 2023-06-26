@@ -2,6 +2,10 @@ from tkinter import *
 from tkinter import ttk
 
 
+def clear_history(list_boxes):
+    list_boxes.delete(0, END)
+
+
 def log_gui():
     take_answers = fahrenheit_input.get()
     take_answer = celsius_input.get()
@@ -10,11 +14,11 @@ def log_gui():
     input_log.append(take_answer)
     input_log.append(take_answers)
     print(input_log)
-    listboxes = Listbox(log)
-    clear_button = Button(log, text="Clear")
+    list_boxes = Listbox(log)
+    list_boxes.insert(0, *input_log)
+    clear_button = ttk.Button(log, text="Clear", command=lambda: clear_history(list_boxes))
     clear_button.grid(column=1, row=0, padx=5, pady=5)
-    listboxes.grid(column=0, row=0, padx=5, pady=5)
-    listboxes.insert(0, *input_log)
+    list_boxes.grid(column=0, row=0, padx=5, pady=5)
 
 
 def temp_checker(min_value):
@@ -42,15 +46,23 @@ def help_gui():
 
 
 def celsius_calc():
-    output = celsius_entry.get()
-    output_a = (float(output) * 9/5) + 32
-    celsius_input.set(output_a)
+    try:
+        output = celsius_entry.get()
+        output_a = (float(output) * 9 / 5) + 32
+        celsius_input.set(str(output_a))
+    except ValueError:
+        print_error = "Input a Number"
+        celsius_input.set(print_error)
 
 
 def fahrenheit_calc():
-    take_fahrenheit = fahrenheit_entry.get()
-    celsius = (float(take_fahrenheit) - 32) * 5/9
-    fahrenheit_input.set(celsius)
+    try:
+        take_fahrenheit = fahrenheit_entry.get()
+        celsius = (float(take_fahrenheit) - 32) * 5 / 9
+        fahrenheit_input.set(str(celsius))
+    except ValueError:
+        print_error = "Input a Number"
+        fahrenheit_input.set(print_error)
 
 
 root = Tk()
@@ -62,9 +74,8 @@ celsius_label.grid(row=0, column=0)
 fahrenheit_label = ttk.Label(root, text="Fahrenheit")
 fahrenheit_label.grid(row=0, column=1)
 
-
-celsius_input = DoubleVar()
-fahrenheit_input = DoubleVar()
+celsius_input = StringVar()
+fahrenheit_input = StringVar()
 celsius_input2 = DoubleVar()
 fahrenheit_input2 = DoubleVar()
 
@@ -74,7 +85,6 @@ celsius_entry.grid(row=1, column=0, padx=5, pady=5)
 fahrenheit_entry = ttk.Entry(root, textvariable=fahrenheit_input2)
 fahrenheit_entry.grid(row=1, column=1, padx=5, pady=5)
 
-
 celsius_label2 = Label(root, textvariable=celsius_input)
 celsius_label2.grid(row=3, column=0, padx=5, pady=5)
 fahrenheit_label2 = Label(root, textvariable=fahrenheit_input)
@@ -82,7 +92,7 @@ fahrenheit_label2.grid(row=3, column=1, padx=5, pady=5)
 
 # all the buttons
 help_button = ttk.Button(root, text="Help", command=help_gui)
-help_button.grid(row=1, column=2, padx=5, pady=5)
+help_button.grid(row=4, column=0, padx=5, pady=5)
 
 celsius_button = ttk.Button(root, text="Convert to Fahrenheit", command=celsius_calc)
 celsius_button.grid(row=2, column=0, padx=5, pady=5)
@@ -91,10 +101,10 @@ fahrenheit_button = ttk.Button(root, text="Convert to Celsius", command=fahrenhe
 fahrenheit_button.grid(row=2, column=1, padx=5, pady=5, sticky="WE")
 
 conversion_log_button = ttk.Button(root, text="History", command=log_gui)
-conversion_log_button.grid(row=2, column=2, padx=5, pady=5)
+conversion_log_button.grid(row=4, column=1, padx=5, pady=5)
 # closing the program with one button
 close_button = ttk.Button(root, text="Close", command=root.destroy)
-close_button.grid(row=3, column=2, padx=5, pady=5)
+close_button.grid(row=4, column=2, padx=5, pady=5)
 
 root.resizable(False, False)
 root.mainloop()
