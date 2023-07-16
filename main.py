@@ -7,8 +7,14 @@ def clear_history(list_boxes):
 
 
 def log_gui():
-    take_answers = fahrenheit_input.get()
-    take_answer = celsius_input.get()
+    try:
+        take_answers = int(fahrenheit_input.get())
+        take_answer = int(celsius_input.get())
+        take_entry1 = int(celsius_entry.get())
+        take_entry2 = int(fahrenheit_entry.get())
+        format_temps = "{:.2f}°C to {:.2f}°F".format(take_entry1, take_answers)
+        if take_answer not in input_log:
+
     log = Toplevel()
     log.title("History/Log")
     input_log.append(take_answer)
@@ -20,18 +26,6 @@ def log_gui():
     clear_button.grid(column=1, row=0, padx=5, pady=5)
     list_boxes.grid(column=0, row=0, padx=5, pady=5)
 
-
-def temp_checker(min_value):
-    error = "Please enter a number that is more\n then {}".format(min_value)
-    try:
-        response = float(input("Enter a number: "))
-
-        if response < min_value:
-            print(error)
-        else:
-            return response
-    except ValueError:
-        print(error)
 
 
 def help_gui():
@@ -68,6 +62,7 @@ def fahrenheit_calc():
 root = Tk()
 root.title("Temperature convertor")
 input_log = []
+output_log = []
 # text for the input boxes
 celsius_label = ttk.Label(root, text="Celsius")
 celsius_label.grid(row=0, column=0)
