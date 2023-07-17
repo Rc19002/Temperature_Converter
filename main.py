@@ -4,16 +4,26 @@ from tkinter import ttk
 
 def clear_history(list_boxes):
     list_boxes.delete(0, END)
+    output_log.clear()
 
+def txt():
+    file = open('items.txt', 'w')
+    for item in output_log:
+        file.write(item+"\n")
+    file.close()
 
 def log_gui():
-    try:
-        take_answers = int(fahrenheit_input.get())
-        take_answer = int(celsius_input.get())
-        take_entry1 = int(celsius_entry.get())
-        take_entry2 = int(fahrenheit_entry.get())
-        format_temps = "{:.2f}°C to {:.2f}°F".format(take_entry1, take_answers)
-        if take_answer not in input_log:
+    take_answers = float(fahrenheit_input.get())
+    take_answer = float(celsius_input.get())
+    take_entry1 = float(celsius_entry.get())
+    take_entry2 = float(fahrenheit_entry.get())
+    format_temp = "{:.2f}°F to {:.2f}°C".format(take_entry2, take_answers)
+    if format_temp not in output_log:
+        output_log.append(format_temp)
+
+    format_temps = "{:.2f}°C to {:.2f}°F".format(take_entry1, take_answer)
+    if format_temps not in output_log:
+        output_log.append(format_temps)
 
     log = Toplevel()
     log.title("History/Log")
@@ -21,11 +31,12 @@ def log_gui():
     input_log.append(take_answers)
     print(input_log)
     list_boxes = Listbox(log)
-    list_boxes.insert(0, *input_log)
+    list_boxes.insert(0, *output_log)
     clear_button = ttk.Button(log, text="Clear", command=lambda: clear_history(list_boxes))
     clear_button.grid(column=1, row=0, padx=5, pady=5)
     list_boxes.grid(column=0, row=0, padx=5, pady=5)
-
+    file_button = ttk.Button(log, text="Turn into TXT", command=txt)
+    file_button.grid(column=1, row=1, padx=5, pady=5)
 
 
 def help_gui():
